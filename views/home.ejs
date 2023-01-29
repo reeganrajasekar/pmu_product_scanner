@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Home</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <style>
+        .nav-link{
+            font-size: 18px;
+            font-weight:600;
+            text-align: center;
+            padding:10px
+        }
+        .nav-item > .active{
+            color:#15AAFF !important;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg sticky-top" style="background:white;box-shadow:1px 1px 2px #aaa;">
+        <div class="container">
+            <a class="navbar-brand" style="color:#15AAFF;font-weight:800;font-size:32px" href="">
+                Admin
+            </a>
+            <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/qrcode">QrCode</a>
+                    </li>
+                    <li class="nav-item dropdown text-center">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+                            Profile
+                        </a>
+                        <ul class="dropdown-menu text-center">
+                            <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <main class="container mt-4 border rounded p-3">
+        <h1 style="color:#15AAFF;font-weight:700;font-size:28px;text-decoration: underline;">Dashboard</h1><br>
+      <div class="row">
+      <div class="col-12">
+        <h4 style="color:#222;font-weight:700;font-size:22px;text-decoration: underline;">Products:</h4>
+        <canvas class="m-4 border rounded" style="height:300px;" id="myChart"></canvas>
+      </div>
+      <div class="col-sm-12 col-md-12 col-lg-6">
+        <h4 style="color:#222;font-weight:700;font-size:22px;text-decoration: underline;">Complain Chart:</h4>
+        <canvas class="m-4 border rounded" style="height:300px;" id="complain"></canvas>
+      </div>
+       <div class="col-sm-12 col-md-12 col-lg-6">
+        <h4 style="color:#222;font-weight:700;font-size:22px;text-decoration: underline;">Complains:</h4>
+        <ul class="container p-4 rounded" style="background:#f9f9f9;font-size:18px;text-align:center">
+          <% complain.map((s)=>{ %>
+          <li><%= s.timestamp +" - "+ s.location %></li>
+          <% })%>
+        </ul>
+      </div>
+	</div>
+    </main>
+   
+
+    <script>
+        // window. addEventListener("contextmenu", e => e. preventDefault());
+
+        const ctx = document.getElementById('myChart');
+        var data = [];
+        var detail = [];
+        <% dates.map((d)=>{ %>
+            data.push('<%= d %>')
+            <% j = 0 %>
+            <% product.map((i)=>{ %>
+                <% if(i.product==d){ %>
+                    <% j+=i.visit.length %>
+                <% } %>
+            <% }) %>
+            detail.push(<%= j %>)
+        <% }) %>
+        let mine = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: data,
+                datasets: [
+                    {
+                    label: 'Last Five Days Products Scanned Chart',
+                    data: detail,
+                     backgroundColor: ['#ff6384','#36a2eb','#cc65fe','#ffce56'],
+                    }
+                ],
+              background:"#555"
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+        mine.clear()
+                                 
+        const cty = document.getElementById('complain');
+        var data = [];
+        var detail = [];
+        <% c_dates.map((d)=>{ %>
+            data.push('<%= d %>')
+            <% j = 0 %>
+            <% complain.map((i)=>{ %>
+                <% if(i.timestamp==d){ %>
+                    <% j++ %>
+                <% } %>
+            <% }) %>
+            detail.push(<%= j %>)
+        <% }) %>
+        let list = new Chart(cty, {
+            type: 'doughnut',
+            data: {
+                labels: data,
+                datasets: [
+                    {
+                    label: 'Last Five Days Complains Chart',
+                    data: detail,
+                     backgroundColor: ['#ff0000','#36a2eb','#cc65fe','#ffce56'],
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+        list.clear()
+      </script>
+    <script src="/js/bootstrap.bundle.js"></script>
+</body>
+</html>

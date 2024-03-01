@@ -5,7 +5,7 @@ const cors = require("cors")
 
 var mongoose = require('mongoose');
 mongoose.set('strictQuery', false);
-mongoose.connect('mongodb+srv://pmu:trysomething@cluster0.nqojeer.mongodb.net/pmu?retryWrites=true&w=majority', { useNewUrlParser: true ,useUnifiedTopology: true,});
+mongoose.connect('mongodb+srv://reegan:0eLGBWsqZhy3UxLk@cluster0.pg1pug1.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', { useNewUrlParser: true ,useUnifiedTopology: true,});
 const Product = require("./models/Product");
 const Complain = require("./models/Complain");
 

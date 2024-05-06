@@ -39,7 +39,7 @@ app.get("/home",async (req,res)=>{
     if(req.cookies["admin"]=="kjmhbcd78sybo87y3ql8bulou"){
         var product = await Product.find().sort({"timestamp":-1});
         var dates = await Product.find().distinct('product');
-        var complain = await Complain.find();
+        var complain = await Complain.find().sort({"timestamp":-1});
         var c_dates = await Complain.find().distinct('timestamp');
         res.render("home.ejs",{product:product,dates:dates,complain:complain,c_dates:c_dates})
     }else{

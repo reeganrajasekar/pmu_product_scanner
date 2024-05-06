@@ -94,7 +94,7 @@ app.get("/logout" , (req,res)=>{
 app.get("/api" ,async (req,res)=>{
     if(req.query.id && req.query.id.length==24){
         var products = await Product.findById(String(req.query.id));
-        if(products && products.visit.length<5){
+        if(products && products.visit.length<2){
             var data = products.visit;
             var dt = new Date();
             date_ = dt.getFullYear() + "-" + (dt.getMonth() + 1) + "-" + dt.getDate();
